@@ -1,21 +1,262 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<h1>Blog de l’association</h1>
-<ul>
-    {% for article in articles %}
-        <li>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droit des Étudiants Étrangers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<style>
+    
+
+
+:root {
+    --primary: #22223b;
+    --secondary: #e37022;
+    --bg-light: #f9fafb;
+    --border-radius: 1rem;
+    --font-main: 'Poppins', Arial, sans-serif;
+    --shadow: 0 2px 16px 0 rgba(100, 100, 100, 0.07);
+}
+body {
+    font-family: var(--font-main);
+    background: var(--bg-light);
+}
+.blog-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem 1rem;
+}
+.blog-title {
+    text-align: center;
+    font-size: 2.3rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 2rem;
+    letter-spacing: -1px;
+}
+.grid-articles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+@media (min-width: 700px) {
+    .grid-articles {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media (min-width: 1000px) {
+    .grid-articles {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+.article-card {
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.14s, box-shadow 0.14s;
+    overflow: hidden;
+    position: relative;
+}
+.article-card:hover {
+    transform: scale(1.035);
+    box-shadow: 0 8px 24px 0 rgba(100,100,100,0.10);
+}
+.article-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    background: #ececec;
+    display: block;
+}
+.article-title {
+    color: var(--secondary);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 1.1rem 1rem 0.5rem 1rem;
+    min-height: 44px;
+    line-height: 1.2;
+}
+.article-date {
+    margin: 0 1rem 0.3rem 1rem;
+    font-size: 0.95rem;
+    color: #7a7a7a;
+}
+.article-content {
+    margin: 0 1rem 1.2rem 1rem;
+    color: #33394c;
+    font-size: 1rem;
+    flex: 1 1 auto;
+}
+.btn-read {
+    margin: 0 1rem 1.2rem 1rem;
+    padding: 0.45em 1.4em;
+    background: var(--secondary);
+    color: #fff;
+    border: none;
+    border-radius: 0.7rem;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.18s;
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+}
+.btn-read:hover {
+    background: #b34e12;
+}
+.article-card .img-placeholder {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f2f2f2;
+    color: #bbb;
+    font-size: 3.3rem;
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+.empty-message {
+    text-align: center;
+    color: #777;
+    font-size: 1.2rem;
+    margin-top: 3.5rem;
+}
+</style>
+
+<div class="blog-container">
+    <h1 class="blog-title">Blog de l’association</h1>
+
+    {% if articles %}
+    <div class="grid-articles">
+        {% for article in articles %}
+        <div class="article-card">
             <a href="{% url 'blog_detail' article.slug %}">
-                <strong>{{ article.titre }}</strong> — {{ article.date_publication|date:"d/m/Y" }}
+                {% if article.image %}
+                <img src="{{ article.image.url }}" alt="{{ article.titre }}" class="article-img">
+                {% else %}
+                <div class="img-placeholder">
+                    <span>📄</span>
+                </div>
+                {% endif %}
             </a>
-            <br>
-            {% if article.image %}
-                <img src="{{ article.image.url }}" width="120">
-            {% endif %}
-            <p>{{ article.contenu|truncatechars:120 }}</p>
-        </li>
-    {% empty %}
-        <li>Aucun article publié pour l’instant.</li>
-    {% endfor %}
-</ul>
+            <a href="{% url 'blog_detail' article.slug %}">
+                <div class="article-title">{{ article.titre }}</div>
+            </a>
+            <div class="article-date">{{ article.date_publication|date:"d/m/Y" }}</div>
+            <div class="article-content">{{ article.contenu|truncatechars:120 }}</div>
+            <a href="{% url 'blog_detail' article.slug %}" class="btn-read">Lire la suite</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <div class="empty-message">
+            Aucun article publié pour l’instant.
+        </div>
+    {% endif %}
+</div>
+
+<!-- Footer -->
+    <footer class="bg-black text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-balance-scale text-secondary text-2xl"></i>
+                        <span class="font-bold text-xl">DroitÉtudiants</span>
+                    </div>
+                    <p class="text-gray-400">Association pour la défense des droits des étudiants étrangers en France.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Liens utiles</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Ressources</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Partenaires</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Mentions légales</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">CGU</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Politique de confidentialité</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Cookies</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Abonnez-vous pour recevoir nos actualités.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Votre email" class="px-4 py-2 rounded-l-lg focus:outline-none text-black w-full">
+                        <button class="bg-secondary hover:bg-orange-700 px-4 py-2 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">© 2025 DroitÉtudiants. Tous droits réservés Kuate joel parfait.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script for smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Mobile menu toggle (would need more implementation)
+        const mobileMenuButton = document.querySelector('.md\\:hidden');
+        mobileMenuButton.addEventListener('click', function() {
+            // Implement mobile menu toggle functionality here
+            console.log('Mobile menu clicked - would open menu');
+        });
+    </script>
+</body>
+</html>
+
+
+
+
 {% endblock %}

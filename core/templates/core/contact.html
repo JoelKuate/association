@@ -1,23 +1,207 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Contact Association</title>
-</head>
-<body>
-    {% extends 'core/base.html' %}
+{% extends 'core/base.html' %}
+
+
+{% block extra_head %}
+
+
+
+{% endblock %}
+    <!-- Tailwind CDN for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      body { font-family: 'Poppins', Arial, sans-serif; }
+      .btn-orange {
+        @apply bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-6 rounded-lg transition;
+      }
+    </style>
+
 
 {% block content %}
-    <h1>Contactez l’association</h1>
-    {% if message_envoye %}
-        <p style="color: green;">Votre message a bien été envoyé. Merci !</p>
-    {% endif %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Envoyer</button>
-    </form>
-{% endblock %}
 
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droit des Étudiants Étrangers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .bg-primary {
+            background-color: #000000;
+        }
+        .text-primary {
+            color: #000000;
+        }
+        .bg-secondary {
+            background-color: #e37022;
+        }
+        .text-secondary {
+            color: #e37022;
+        }
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        .hover-scale:hover {
+            transform: scale(1.03);
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #e37022;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<div class="flex flex-col items-center min-h-[70vh] py-12 bg-[#f9fafb]">
+  <div class="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-10 border border-gray-200">
+    <h1 class="text-4xl font-bold text-center text-[#22223b] mb-8">Contactez l’association</h1>
+    {% if message_envoye %}
+      <div class="bg-green-100 border-2 border-green-200 text-green-800 px-6 py-4 rounded-xl mb-6 text-center font-medium text-lg">
+        Votre message a bien été envoyé. Merci !
+      </div>
+    {% endif %}
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <label class="block text-lg font-semibold text-gray-700">Nom complet</label>
+          <input type="text" name="nom" 
+                 class="w-full px-5 py-3 text-lg border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition"
+                 placeholder="Jean Dupont">
+        </div>
+        <div class="space-y-2">
+          <label class="block text-lg font-semibold text-gray-700">Adresse email</label>
+          <input type="email" name="email" 
+                 class="w-full px-5 py-3 text-lg border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition"
+                 placeholder="jean.dupont@exemple.com">
+        </div>
+      </div>
+      
+      <div class="space-y-2">
+        <label class="block text-lg font-semibold text-gray-700">Sujet du message</label>
+        <input type="text" name="sujet" 
+               class="w-full px-5 py-3 text-lg border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition"
+               placeholder="Demande de renseignement">
+      </div>
+      
+      <div class="space-y-2">
+        <label class="block text-lg font-semibold text-gray-700">Votre message</label>
+        <textarea name="message" rows="6" 
+                  class="w-full px-5 py-3 text-lg border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition"
+                  placeholder="Décrivez votre demande en détails..."></textarea>
+      </div>
+      
+      <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white text-xl font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg">
+        <i class="fas fa-paper-plane mr-3"></i>Envoyer le message
+      </button>
+    </form>
+  </div>
+</div>
+
+
+
+<!-- Footer -->
+<footer class="bg-black text-white py-12">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <div class="flex items-center space-x-2 mb-4">
+                    <i class="fas fa-balance-scale text-secondary text-2xl"></i>
+                    <span class="font-bold text-xl">DroitÉtudiants</span>
+                </div>
+                <p class="text-gray-400">Association pour la défense des droits des étudiants étrangers en France.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-bold text-lg mb-4">Liens utiles</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Blog</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">FAQ</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Ressources</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Partenaires</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-bold text-lg mb-4">Mentions légales</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">CGU</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Politique de confidentialité</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Cookies</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-bold text-lg mb-4">Newsletter</h4>
+                <p class="text-gray-400 mb-4">Abonnez-vous pour recevoir nos actualités.</p>
+                <div class="flex">
+                    <input type="email" placeholder="Votre email" class="px-4 py-2 rounded-l-lg focus:outline-none text-black w-full">
+                    <button class="bg-secondary hover:bg-orange-700 px-4 py-2 rounded-r-lg">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-400 mb-4 md:mb-0">© 2023 DroitÉtudiants. Tous droits réservés.</p>
+            <div class="flex space-x-6">
+                <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Simple script for smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+    
+    // Mobile menu toggle (would need more implementation)
+    const mobileMenuButton = document.querySelector('.md\\:hidden');
+    mobileMenuButton.addEventListener('click', function() {
+        // Implement mobile menu toggle functionality here
+        console.log('Mobile menu clicked - would open menu');
+    });
+</script>
 </body>
 </html>
+
+{% endblock %}
+

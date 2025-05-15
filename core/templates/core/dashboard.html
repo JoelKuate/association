@@ -1,22 +1,156 @@
 {% extends 'core/base.html' %}
 {% block content %}
-<h2>Mon espace membre</h2>
-<p>Bienvenue, {{ user.username }} !</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droit des Étudiants Étrangers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .bg-primary {
+            background-color: #000000;
+        }
+        .text-primary {
+            color: #000000;
+        }
+        .bg-secondary {
+            background-color: #e37022;
+        }
+        .text-secondary {
+            color: #e37022;
+        }
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        .hover-scale:hover {
+            transform: scale(1.03);
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #e37022;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+        <h2 class="text-3xl font-bold text-primary mb-4">👋 Mon espace membre</h2>
+        <p class="text-lg text-gray-600">Bienvenue, <span class="font-semibold text-secondary">{{ user.username }}</span> !</p>
+    </div>
 
-<h3>Mes articles</h3>
-<ul>
-    {% for article in articles %}
-        <li>
-            <strong>{{ article.titre }}</strong> - {{ article.get_etat_display }}
-            <a href="{% url 'article_apercu' article.pk %}">Voir</a>
-            {% if article.etat != "publie" %}
-                | <a href="{% url 'modifier_article' article.pk %}">Modifier</a>
-            {% endif %}
-        </li>
-    {% empty %}
-        <li>Aucun article pour l’instant.</li>
-    {% endfor %}
-</ul>
+    <div class="bg-white rounded-xl shadow-md p-6">
+        <h3 class="text-2xl font-bold text-primary mb-6">📝 Mes articles</h3>
+        
+        {% if articles %}
+        <div class="space-y-4">
+            {% for article in articles %}
+            <div class="border-b border-gray-200 pb-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h4 class="text-xl font-semibold text-primary">{{ article.titre }}</h4>
+                        <p class="text-gray-500">{{ article.get_etat_display }}</p>
+                    </div>
+                    <div class="flex space-x-4">
+                        <a href="{% url 'article_apercu' article.pk %}" class="text-secondary hover:text-orange-700 transition duration-300">
+                            <i class="fas fa-eye mr-2"></i>Voir
+                        </a>
+                        {% if article.etat != "publie" %}
+                        <a href="{% url 'modifier_article' article.pk %}" class="text-gray-600 hover:text-secondary transition duration-300">
+                            <i class="fas fa-edit mr-2"></i>Modifier
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-gray-500 text-center py-8">Aucun article pour l'instant.</p>
+        {% endif %}
+        
+        <div class="mt-8 text-center">
+            <a href="{% url 'proposer_article' %}" class="bg-secondary hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 inline-block">
+                <i class="fas fa-plus mr-2"></i>Proposer un nouvel article
+            </a>
+        </div>
+    </div>
+</div>
 
-<a href="{% url 'proposer_article' %}">Proposer un nouvel article</a>
+<footer class="bg-black text-white py-12">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <div class="flex items-center space-x-2 mb-4">
+                    <i class="fas fa-balance-scale text-secondary text-2xl"></i>
+                    <span class="font-bold text-xl">DroitÉtudiants</span>
+                </div>
+                <p class="text-gray-400">Association pour la défense des droits des étudiants étrangers en France.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-bold text-lg mb-4">Liens utiles</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Blog</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">FAQ</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Ressources</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Partenaires</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-bold text-lg mb-4">Mentions légales</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">CGU</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Politique de confidentialité</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Cookies</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-bold text-lg mb-4">Newsletter</h4>
+                <p class="text-gray-400 mb-4">Abonnez-vous pour recevoir nos actualités.</p>
+                <div class="flex">
+                    <input type="email" placeholder="Votre email" class="px-4 py-2 rounded-l-lg focus:outline-none text-black w-full">
+                    <button class="bg-secondary hover:bg-orange-700 px-4 py-2 rounded-r-lg">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-400 mb-4 md:mb-0">© 2023 DroitÉtudiants. Tous droits réservés.</p>
+            <div class="flex space-x-6">
+                <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
 {% endblock %}
