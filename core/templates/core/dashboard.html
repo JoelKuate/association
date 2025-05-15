@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h2>Mon espace membre</h2>
+<p>Bienvenue, {{ user.username }} !</p>
+
+<h3>Mes articles</h3>
+<ul>
+    {% for article in articles %}
+        <li>
+            <strong>{{ article.titre }}</strong> - {{ article.get_etat_display }}
+            <a href="{% url 'article_apercu' article.pk %}">Voir</a>
+            {% if article.etat != "publie" %}
+                | <a href="{% url 'modifier_article' article.pk %}">Modifier</a>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>Aucun article pour l’instant.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'proposer_article' %}">Proposer un nouvel article</a>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h2>Modifier l’article : {{ article.titre }}</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enregistrer les modifications</button>
+</form>
+<a href="{% url 'dashboard' %}">Retour au dashboard</a>
+{% endblock %}

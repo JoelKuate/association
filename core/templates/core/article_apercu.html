@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h2>{{ article.titre }}</h2>
+<p><strong>Statut :</strong> {{ article.get_etat_display }}</p>
+<p>{{ article.contenu|linebreaks }}</p>
+{% if article.image %}
+    <img src="{{ article.image.url }}" width="300">
+{% endif %}
+<a href="{% url 'dashboard' %}">Retour à mon espace</a>
+{% if article.etat != "publie" %}
+    | <a href="{% url 'modifier_article' article.pk %}">Modifier</a>
+{% endif %}
+{% endblock %}
